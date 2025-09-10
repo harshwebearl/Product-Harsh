@@ -1,11 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const productRoutes = require('./routes/productRoutes');
 
 const app = express();
 
 // Middleware
+app.use(cors());
 app.use(express.json());
 // Serve uploads folder as static
 app.use('/uploads', express.static('uploads'));
