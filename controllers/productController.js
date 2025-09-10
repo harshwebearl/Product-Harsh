@@ -47,9 +47,17 @@ exports.getProductById = async (req, res) => {
 // Update a product by ID
 exports.updateProduct = async (req, res) => {
   try {
+    const updateData = { ...req.body };
+    // Prevent productId from being updated
+    if (updateData.productId) {
+      delete updateData.productId;
+    }
+    if (req.file) {
+      updateData.productImage = req.file.path;
+    }
     const product = await Product.findOneAndUpdate(
       { productId: req.params.id },
-      req.body,
+      updateData,
       { new: true }
     );
     if (!product) return res.status(404).json({ error: 'Product not found' });

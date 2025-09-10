@@ -24,8 +24,8 @@ router.get('/', productController.getProducts);
 // Get a single product by ID
 router.get('/:id', productController.getProductById);
 
-// Update a product by ID
-router.put('/:id', productController.updateProduct);
+// Update a product by ID (with image upload)
+router.put('/:id', upload.single('productImage'), productController.updateProduct);
 
 // Delete a product by ID
 router.delete('/:id', productController.deleteProduct);
