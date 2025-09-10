@@ -4,10 +4,11 @@ const Product = require('../models/product');
 exports.createProduct = async (req, res) => {
   try {
     const { productId, productName, productPrice, productDescription } = req.body;
-    let productImage = '';
-    if (req.file) {
-      productImage = req.file.path;
+    // Check for required fields
+    if (!productId || !productName || !productPrice || !req.file || !productDescription) {
+      return res.status(400).json({ error: 'All fields (productId, productName, productPrice, productDescription, productImage) are required.' });
     }
+    const productImage = req.file.path;
     const product = new Product({
       productId,
       productName,
@@ -18,7 +19,7 @@ exports.createProduct = async (req, res) => {
     await product.save();
     res.status(201).json(product);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 };
 
